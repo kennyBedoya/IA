@@ -38,36 +38,18 @@ fclose(labels_a);
 %--------------------------------------
 
 %%--------forward-----------------------------------------
-
-%%---variables de control
-
-%tamaño de imagenes ancho x alto en pixeles (784)
-tam = length(as);
-%numero de neuronas de la capa oculta
-nco = 300;
-%numero de neurona de la capa de salida
-ncs = 10;
-%%-intervalo para los pesos (w)
-lim_min = 20; %limite inferior
-lim_max = 50; %limite superior
-%numero de la imagen a imprimer en la prueba (valor maximo = 60000 )
-img_p = 60000;
-%numero de la imagen para consultar en la salida de la red neuronal
-img_consul = 60000;
-
-
-%%---definiciones
+%%definiciones
 f=inline('1./(1+exp(-x))');
-x_a=reshape(images,[tam,60000]);
+x_a=reshape(images,[784,60000]);
 
 %matriz de entrada x con los unos
 x= [ones(1,num_images);x_a];
 
 %matriz de pesos w sub 1, rango entre 20 Y 50, de 300x785 
-w1 = randi([lim_min,lim_max],nco,(tam+1));
+w1 = randi([20,50],300,785);
 
 %matriz de pesos w sub 2, rango entre 20 Y 50, de 300x785 
-w2 = randi([lim_min,lim_max],ncs,(nco+1));
+w2 = randi([20,50],10,301);
 
 %----calculo de la propagacion
 z1 = w1*x;
@@ -81,14 +63,10 @@ z2 = w2*a1;
 a2 = f(z2);
 
 %%-----prueba de mostrar una imagen
-as = x_a(:,img_p);
+as = x_a(:,3);
 image((reshape(as,[num_fila,num_col]))');
-
-%img_aux = imread((reshape(as,[num_fila,num_col]))');
-%gray_scale = rgb2gray(img_aux);
-%imshow(gray_scale);
 %--------------------
 
 %prueba de salida
-a2(:,img_consul)
-labels(img_p,:)
+a2(:,1000)
+labels(3,:)
